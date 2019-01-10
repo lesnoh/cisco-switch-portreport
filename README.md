@@ -16,6 +16,6 @@ add switch with name and ip to _switchlist_
 
 change SNMP community in _portreport.pl_
 
-chmod u+x _portreport.pl
+chmod u+x _portreport.pl_
 
 ./portreport.pl
