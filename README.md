@@ -29,6 +29,6 @@ add the ip address of your mailserver
 	
 ## Cron
 
-For example: Every 1st of a month at 7
+For example: Every 1st of a month at 7:30
 
 	30 07 1 * * ansible-playbook ~/portreport.yml
