@@ -21,14 +21,14 @@ change SNMP community in _report.pl_
 
 	chmod u+x report.pl
 
-change "offline_vars" in portreport.yml to the path where the file should be created
+change "offline_ports" in portreport.yml to the path where the file should be created
 
 add the ip address of your mailserver
 
-	ansible-playbook ~/portreport.yml
+	ansible-playbook /path/to/portreport.yml
 	
 ## Cron
 
 For example: Every 1st of a month at 7:30
 
-	30 07 1 * * ansible-playbook ~/portreport.yml
+	30 07 1 * * ansible-playbook /path/to/portreport.yml
