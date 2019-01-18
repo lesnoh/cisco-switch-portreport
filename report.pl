@@ -17,7 +17,7 @@ if ($ARGC != 1) {
 }
 
 $community 		= 'public';
-$switchliste 		= "~/switchlist";
+$switchliste 		= 'switchlist';
 #$gesamtports 		= 0;
 #$gesamtfreieports 	= 0;
 
