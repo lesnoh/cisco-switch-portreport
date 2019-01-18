@@ -18,6 +18,7 @@ change SNMP community in _report.pl_
 	chmod u+x _report.pl_
 
 change "offline_vars" in portreport.yml to the path where the file should be created
+
 add the ip address of your mailserver
 
 	ansible-playbook ~/portreport.yml
