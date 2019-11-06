@@ -1,32 +1,32 @@
 ---
 - hosts: localhost
   connection: local
-  gather_facts: false 
-  ignore_errors: true 
+  gather_facts: false
+  ignore_errors: true
 
   vars:
-    offline_ports: ~/offline_ports.txt 
+    offline_ports: offline_ports.txt
 
   tasks:
     - name: Timestamp
       command: date +%Y-%m-%d
       register: timestamp
-    
+
     - name: Removing old file with offline ports
       file:
         path: "{{ offline_ports }}"
         state: absent
-      
+
     - name: Checking offline ports
-      shell: ~/report.pl >> "{{ offline_ports }}" 2>&1   
- 
-    - name: Sending mail to noc with all offline ports 
+      shell: ./report.pl >> "{{ offline_ports }}" 2>&1
+
+    - name: Sending mail to noc with all offline ports
       mail:
         host: "ip address from mailserver"
         port: 25
         from: "Ansible <ansible@example.com>"
         to: "anyone@example.com"
         subject: "Port Report - {{ timestamp.stdout }}"
-        body: "Ports with long downtime:\n{{ lookup('file', '~/offline_ports.txt') }}"
-        secure: never 
+        body: "Ports with long downtime:\n{{ lookup('file', 'offline_ports.txt') }}"
+        secure: never
 ...

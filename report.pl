@@ -1,9 +1,8 @@
 #!/usr/bin/perl
 # Basierend auf: http://www.gossamer-threads.com/lists/cisco/nsp/120759
-# erweitert durch Michael Honsel (lesnoh@gmx.de)
-# 12/2013
-# Ausgabe angepasst und reduziert auf nur "nur offline Ports mit Interface Description" durch Domenic Baumeister
 # 01/2019
+# 10/2019
+# erweitert durch Michael Honsel (lesnoh@gmx.de) und Domenic Baumeister
 
 use warnings;
 use Net::SNMP;
@@ -11,8 +10,8 @@ use Net::SNMP;
 # Parameter prüfen:
 $ARGC = $#ARGV +1;
 if ($ARGC != 1) {
-	$pulldays 	= 2;	
-} else { 
+	$pulldays 	= 2;
+} else {
 	$pulldays 	= $ARGV[0];
 }
 
@@ -79,7 +78,7 @@ sub auswertung() {
 	##
 
 	my ($sysname, $uptime) = &get_sysuptime;
-	
+
 	## can't run a report for more days that we have uptime
 	if (($uptime/8640000) < $pulldays) {
 		print "Der Switch $sysname ist noch keine $pulldays Tage gestartet!.\n";
@@ -103,16 +102,16 @@ sub auswertung() {
 		my $adminstatus 	= $result->{$oid_ifadminstatus.$ifindex};
 	        my $name		= $result->{$oid_ifxAlias.$ifindex};
 		my $status_time_days 	= ($uptime - $lastchange) / 8640000;
-	
-		if ( $desc =~ /VLAN|Null|Port-Channel|Loopback|EOBC|FastEthernet[01]$/i ){ 
-			print ""; 
+
+		if ( $desc =~ /VLAN|Null|Port-Channel|Loopback|EOBC|FastEthernet[01]$/i ){
+			print "";
 		}  else {
 			$tot_ports++;
 			## are we a pull candidate? if ifoperstatus 2 == down we are
 			if ($operstatus == '2' && $status_time_days >= $pulldays) {
 				$pull_ports++;
 				$rounded_days = sprintf("%.2f", $status_time_days);
-				if ($adminstatus == '1' && $name ne '' ) {
+				if ($adminstatus == '1') {
 					print "Port: $desc | Description: $name | Days offline: $rounded_days\n";
 				}
 			}
@@ -138,7 +137,7 @@ sub get_ifindex {
 	foreach $key (keys %$tbl_ifIndex) {
 		push (@ifindexes, $$tbl_ifIndex{$key});
 	}
-	
+
 	@ifindexes = sort(@ifindexes);
 	return (@ifindexes);
 }
@@ -154,4 +153,4 @@ sub get_sysuptime {
 	printf("\nSwitch '%s' ist seit %.2f Tagen gestartet\n\n", $sysname, $uptime/8640000);
 
 	return ($sysname, $uptime);
-} 
+}
